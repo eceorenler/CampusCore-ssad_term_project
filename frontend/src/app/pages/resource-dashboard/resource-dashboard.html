@@ -11,18 +11,6 @@
             <p>Explore and reserve campus resources</p>
         </section>
 
-        <!-- Resource search -->
-        <div class="resource-search-section">
-
-            <label for="resource-search" class="resource-search-label">
-                Search Resources
-            </label>
-
-            <input id="resource-search" type="search" class="resource-search-input"
-                placeholder="Search by resource name or location..." [(ngModel)]="searchTerm" />
-
-        </div>
-
         <!-- Category filters -->
         <section class="filters" aria-label="Resource categories">
 
@@ -127,22 +115,6 @@
                 <p>
                     No campus resources are available
                     at the moment.
-                </p>
-
-                } @else if (
-                searchTerm.trim() &&
-                selectedCategory !== 'All'
-                ) {
-
-                <p>
-                    No resources match your search
-                    and selected category.
-                </p>
-
-                } @else if (searchTerm.trim()) {
-
-                <p>
-                    No resources match your search.
                 </p>
 
                 } @else {

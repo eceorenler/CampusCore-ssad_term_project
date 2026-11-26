@@ -2,13 +2,12 @@ import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { ResourceService } from '../../core/services/resource';
 import { Resource } from '../../models/resource.model';
-import { FormsModule } from '@angular/forms';
 import { Auth } from '../../core/services/auth';
 import { StudentNavbar } from '../../shared/student-navbar/student-navbar';
 
 @Component({
   selector: 'app-resource-dashboard',
-  imports: [RouterLink, FormsModule, StudentNavbar],
+  imports: [RouterLink, StudentNavbar],
   templateUrl: './resource-dashboard.html',
   styleUrl: './resource-dashboard.css'
 })
@@ -21,22 +20,6 @@ export class ResourceDashboard implements OnInit {
   // Stores a resource loading error.
   // Empty means no error.
   errorMessage = '';
-
-  // Stores the text entered in the search bar.
-  searchTerm = '';
-
-  matchesSearch(resource: Resource): boolean {
-    const search = this.searchTerm.trim().toLowerCase();
-
-    if (!search) {
-      return true;
-    }
-
-    return (
-      resource.name.toLowerCase().includes(search) ||
-      resource.location.toLowerCase().includes(search)
-    );
-  }
 
   private resourceService = inject(ResourceService);
 
@@ -144,21 +127,11 @@ export class ResourceDashboard implements OnInit {
     this.selectedCategory = category;
   }
 
-  // Filter resources by category.
+  // Filter resources by category only.
   get filteredResources(): Resource[] {
-    return this.resources.filter(resource => {
-
-      // Check the selected category.
-      const matchesCategory =
-        this.selectedCategory === 'All' ||
-        resource.type === this.selectedCategory;
-
-      // Check the search text.
-      const matchesSearch = this.matchesSearch(resource);
-
-      // Resource must match both conditions.
-      return matchesCategory && matchesSearch;
-
-    });
+    return this.resources.filter(resource =>
+      this.selectedCategory === 'All' ||
+      resource.type === this.selectedCategory
+    );
   }
 }
