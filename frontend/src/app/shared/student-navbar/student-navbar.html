@@ -1,0 +1,24 @@
+<header class="navbar">
+    <a routerLink="/resources" class="logo">
+        CampusCore
+    </a>
+
+    <nav class="nav-links" aria-label="Main navigation">
+
+        <a routerLink="/resources" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: false }"
+            ariaCurrentWhenActive="page">
+            Resources
+        </a>
+
+        <button type="button" class="logout-button" (click)="logout()" [disabled]="isLoggingOut">
+            {{ isLoggingOut ? 'Logging Out...' : 'Logout' }}
+        </button>
+
+    </nav>
+</header>
+
+@if (logoutError) {
+<p class="logout-error" role="alert">
+    {{ logoutError }}
+</p>
+}
