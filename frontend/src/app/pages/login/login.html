@@ -1,0 +1,67 @@
+<div class="login-page">
+    <div class="login-card">
+
+
+        <div class="login-header">
+            <div class="logo-placeholder">
+                <!-- CampusCore logo will be placed here -->
+            </div>
+
+            <h1>CampusCore</h1>
+
+            <p class="system-subtitle">
+                Campus Resource Reservation System
+            </p>
+
+            <h2>Welcome Back!</h2>
+            <p class="welcome-subtitle">
+                Sign in to your account
+            </p>
+        </div>
+
+        <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" type="email" name="email" placeholder="Enter your university email"
+                    autocomplete="username" formControlName="email" />
+
+                @if (loginForm.controls.email.touched &&
+                loginForm.controls.email.invalid) {
+                <small class="error-message">
+                    Please enter a valid email address.
+                </small>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" type="password" name="password" placeholder="Enter your password"
+                    autocomplete="current-password" formControlName="password" />
+
+                @if (loginForm.controls.password.touched &&
+                loginForm.controls.password.invalid) {
+                <small class="error-message">
+                    Password is required.
+                </small>
+                }
+            </div>
+
+            <button type="submit" class="login-button">
+                Log In
+            </button>
+
+            @if (loginError) {
+            <p class="error-message" role="alert">
+                {{ loginError }}
+            </p>
+            }
+
+        </form>
+
+        <p class="account-info">
+            Please contact your university administrator
+            for account access.
+        </p>
+
+    </div>
+</div>

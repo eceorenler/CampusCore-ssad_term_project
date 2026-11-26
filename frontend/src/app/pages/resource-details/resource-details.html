@@ -1,0 +1,126 @@
+<div class="details-page">
+
+    <!-- Shared Student Navigation -->
+    <app-student-navbar></app-student-navbar>
+
+    <main class="details-content">
+
+        @if (isLoading) {
+
+        <!-- Loading state -->
+        <div class="details-loading-state" role="status" aria-live="polite">
+            <div class="details-spinner" aria-hidden="true"></div>
+            <p>Loading resource details...</p>
+        </div>
+
+        } @else if (resourceLoadError) {
+
+        <!-- API error state -->
+        <div class="details-error-state" role="alert">
+            <h1>Unable to Load Resource</h1>
+
+            <p>{{ resourceLoadError }}</p>
+
+            <a routerLink="/resources" class="back-link">
+                Back to Resources
+            </a>
+        </div>
+
+        } @else {
+
+        <!-- Back to resources -->
+        <a routerLink="/resources" class="back-link">
+            ← Back to Resources
+        </a>
+
+        <div class="details-card">
+
+            @if (resource) {
+
+            <!-- Resource information -->
+            <div class="resource-image" aria-label="Resource image placeholder"></div>
+
+            <h1>{{ resource.name }}</h1>
+
+            <p class="resource-meta">
+                {{ resource.type }} ·
+                {{ resource.location }} ·
+                Capacity: {{ resource.capacity > 0 ? resource.capacity : 'N/A' }}
+            </p>
+
+            <p class="resource-description">
+                {{ resource.description }}
+            </p>
+
+            <!-- Opening hours from FastAPI -->
+            @if (opensAt && closesAt) {
+            <p class="resource-hours">
+                <strong>Opening Hours:</strong>
+                {{ opensAt.slice(0, 5) }} –
+                {{ closesAt.slice(0, 5) }}
+            </p>
+            }
+
+            <hr />
+
+            <section class="reservation-section" aria-labelledby="availability-title">
+
+                <h2 id="availability-title">Check Availability</h2>
+
+                <p>Select a date and time to check whether this resource is available.</p>
+
+                <form class="reservation-form" [formGroup]="availabilityForm" (ngSubmit)="checkAvailability()">
+
+                    <div class="form-group">
+                        <label for="availability-date">Date</label>
+                        <input id="availability-date" type="date" formControlName="date" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="availability-start">Start Time</label>
+                        <input id="availability-start" type="time" formControlName="startTime" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="availability-end">End Time</label>
+                        <input id="availability-end" type="time" formControlName="endTime" required />
+                    </div>
+
+                    <button type="submit" class="reserve-button" [disabled]="isCheckingAvailability">
+
+                        {{ isCheckingAvailability ? 'Checking...' : 'Check Availability' }}
+
+                    </button>
+
+                </form>
+
+                @if (availabilityMessage) {
+                <p class="reservation-message" role="status" aria-live="polite">
+                    {{ availabilityMessage }}
+                </p>
+                }
+
+            </section>
+
+            } @else {
+
+            <!-- Resource not found -->
+            <h1>Resource Not Found</h1>
+
+            <p class="resource-description">
+                The requested resource does not exist.
+            </p>
+
+            <a routerLink="/resources" class="back-link">
+                Browse Available Resources
+            </a>
+
+            }
+
+        </div>
+
+        }
+
+    </main>
+
+</div>
